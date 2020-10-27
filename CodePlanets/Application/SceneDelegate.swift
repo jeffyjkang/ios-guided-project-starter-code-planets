@@ -6,6 +6,12 @@
 //  Copyright © 2020 Lambda School. All rights reserved.
 //
 
+// 4 Steps to remove storyboard dependency
+// 1. Delete main.storyboard
+// 2. Remove 'main' as User Interface in project settings (General Tab)
+// 3. Remove key fro Storyboard Name under Application Scene Manifest Key (info.plist)
+// 4. Set up your main window in the scene delegate method below
+
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -16,7 +22,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        window = UIWindow(windowScene: windowScene)
+        
+        let navController = UINavigationController(rootViewController: PlanetsCollectionViewController())
+        navController.navigationBar.prefersLargeTitles = true
+        
+        window?.rootViewController = navController
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
